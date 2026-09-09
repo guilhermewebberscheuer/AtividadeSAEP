@@ -28,6 +28,19 @@ server.get('/produtos/ordenados', (req, res) => {
     })
 })
 
+server.get('/produtos/:id', (req, res) => {
+    const { id } = req.params;
+
+    const sql = 'select *from PRODUTO where id_produto = ?';
+
+    connection.query(sql, [id], (erro, resultado) => {
+        if(erro){
+            return res.status(500).json({erro: erro.message });
+        }
+        return res.json(resultado[0]);
+    })
+})
+
 const PORT = 3099;
 
 server.listen(PORT, () => {
